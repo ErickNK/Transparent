@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateReviewTable extends Migration
+class AddForeignKeysToReplies extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateReviewTable extends Migration
      */
     public function up()
     {
-        Schema::create('revies', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+        Schema::table('replies', function (Blueprint $table) {
+            $table->foreign('commentId')
+                ->references('id')->on('comments')
+                ->onDelete('cascade');
         });
     }
 
@@ -26,6 +27,8 @@ class CreateReviewTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('revies');
+        Schema::table('replies', function (Blueprint $table) {
+            //
+        });
     }
 }
